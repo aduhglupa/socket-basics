@@ -5,10 +5,11 @@ socket.on('connect', function () {
 });
 
 socket.on('message', function (message) {
+    var time = moment(message.timestamp).format('h:mm a');
     console.log('New message:');
     console.log(message.text);
 
-    $('.messages').append('<p>' + message.text + '</p>');
+    $('.messages').append('<p><strong>' + time + ': </strong> ' + message.text + '</p>');
 });
 
 // Handle submitting of new form
