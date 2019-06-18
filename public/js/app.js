@@ -1,15 +1,22 @@
 var socket = io();
 
+var name = getQueryVariable('name') || 'Anonymous';
+var room = getQueryVariable('room');
+
 socket.on('connect', function () {
     console.log('Connect to socket.io server!');
 });
 
 socket.on('message', function (message) {
     var time = moment(message.timestamp).format('h:mm a');
+    var $message = $('.messages');
     console.log('New message:');
     console.log(message.text);
 
-    $('.messages').append('<p><strong>' + time + ': </strong> ' + message.text + '</p>');
+    $message.append(`
+        <p><strong>${message.name} ${time}</strong></p>
+        <p>${message.text}</p>
+    `);
 });
 
 // Handle submitting of new form
@@ -19,6 +26,7 @@ $form.on('submit', function (e) {
     e.preventDefault();
 
     socket.emit('message', {
+        name: name,
         text: $form.find('input[name=message]').val()
     });
 
