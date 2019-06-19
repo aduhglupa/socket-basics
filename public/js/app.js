@@ -1,10 +1,17 @@
 var socket = io();
 
 var name = getQueryVariable('name') || 'Anonymous';
-var room = getQueryVariable('room');
+var room = getQueryVariable('room') || 'Random Room';
+
+$('.chat-title').text(room);
 
 socket.on('connect', function () {
     console.log('Connect to socket.io server!');
+
+    socket.emit('joinRoom', {
+        name: name,
+        room: room
+    });
 });
 
 socket.on('message', function (message) {
