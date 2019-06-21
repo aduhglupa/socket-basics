@@ -16,7 +16,11 @@ socket.on('connect', function () {
 
 socket.on('message', function (message) {
     var time = moment(message.timestamp).format('h:mm a');
-    var $message = $('.messages');
+    var $messages = $('.messages');
+    var $message = $('<li>', {
+        class: 'list-group-item'
+    });
+
     console.log('New message:');
     console.log(message.text);
 
@@ -24,6 +28,7 @@ socket.on('message', function (message) {
         <p><strong>${message.name} ${time}</strong></p>
         <p>${message.text}</p>
     `);
+    $messages.append($message);
 });
 
 // Handle submitting of new form
